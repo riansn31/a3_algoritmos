@@ -1,16 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
 
 package Main;
-
-/**
- *
- * @author rians
- */
+import javax.swing.JOptionPane;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        String opmenu = JOptionPane.showInputDialog("XYZ COMERCIO DE PRODUTOS LTDA.\n"
+                + "SISTEMA DE CONTROLE DE ESTOQUE  \n"
+                + "MENU PRINCIPAL \n"
+                + "1 - CADASTRO DE PRODUTOS \n"
+                + "2 - MOVIMENTAÇÃO \n"
+                + "3 - REAJUSTE DE PREÇOS \n"
+                + "4 - RELATÓRIOS \n"
+                + "0 - FINALIZAR \n"
+                + "OPÇÃO : ");
+        
     }
 }
