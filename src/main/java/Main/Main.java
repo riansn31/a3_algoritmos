@@ -56,17 +56,19 @@ public class Main {
     }
 
     public static void menuCadastro() {
-        String menuCadastro = """
-            --- RELATORIOS ---
-            1 - 
-            2 - 
-            3 - 
-            0 - 
-            
-            OPÇÃO:""";
+        String menuCad = """
+        --- CADASTRO DE PRODUTOS ---
+        1 - Incluir Produto
+        2 - Alterar Produto
+        3 - Consultar produto
+        4 - Excluir Produto
+        0 - Voltar ao Menu Principal
+        
+        OPÇÃO:""";
+
         String op;
         do {
-            op = JOptionPane.showInputDialog(null, menuCadastro);
+            op = JOptionPane.showInputDialog(null, menuCad);
             if (op == null) {
                 break;
             }
@@ -91,27 +93,34 @@ public class Main {
     }
 
     public static void menuRelatorios() {
-        String menuRelatorios = """
-                                --- CADASTRO DE PRODUTOS ---
-                                1 - Incluir Produto
-                                2 - Alterar Produto
-                                3 - Excluir Produto
-                                0 - Voltar ao Menu Principal
-                                
-                                OPÇÃO:""";
+        String menuRel = """
+        --- RELATÓRIOS ---
+        1 - Relatórios de Inventário
+        2 - Relatórios de Alerta
+        2 - Relatórios de Movimentação
+        3 - Relatórios Financeiros de Estoque
+        0 - Voltar ao Menu Principal
+        
+        OPÇÃO:""";
+
         String op;
         do {
-            op = JOptionPane.showInputDialog(null, menuRelatorios);
-            if (op ==  null ){
+            op = JOptionPane.showInputDialog(null, menuRel);
+            if (op == null) {
                 break;
             }
-            switch(op){
+            switch (op) {
                 case "1":
-                    JOptionPane.showInputDialog("")
+                    JOptionPane.showInputDialog("Abrindo Relatórios de Inventário...");
+                    break;
+                case "2":
+                        JOptionPane.showInputDialog("Abrindo Relatórios de Alerta...");
+                default:
+                    JOptionPane.showMessageDialog(null, "Opção inválida!");
+                    break;
             }
-                
-        }
-                                
+
+        } while (!"0".equals(op));
+
     }
 }
-
