@@ -57,11 +57,11 @@ public class Main {
 
     public static void menuCadastro() {
         String menuCadastro = """
-            --- CADASTRO DE PRODUTOS ---
-            1 - Incluir Produto
-            2 - Alterar Produto
-            3 - Excluir Produto
-            0 - Voltar ao Menu Principal
+            --- RELATORIOS ---
+            1 - 
+            2 - 
+            3 - 
+            0 - 
             
             OPÇÃO:""";
         String op;
@@ -88,6 +88,30 @@ public class Main {
             }
         } while (!"0".equals(op));
 
+    }
+
+    public static void menuRelatorios() {
+        String menuRelatorios = """
+                                --- CADASTRO DE PRODUTOS ---
+                                1 - Incluir Produto
+                                2 - Alterar Produto
+                                3 - Excluir Produto
+                                0 - Voltar ao Menu Principal
+                                
+                                OPÇÃO:""";
+        String op;
+        do {
+            op = JOptionPane.showInputDialog(null, menuRelatorios);
+            if (op ==  null ){
+                break;
+            }
+            switch(op){
+                case "1":
+                    JOptionPane.showInputDialog("")
+            }
+                
+        }
+                                
     }
 }
 
