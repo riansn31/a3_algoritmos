@@ -34,6 +34,7 @@ explicativos e testando todas as condições de erro possíveis.
 2
 • Os layouts de telas e relatórios apresentados a seguir são uma sugestão, podendo ser alterados
 esteticamente, desde que apresentem as informações e funcionalidades especificadas.
+Desenvolvedores: Rian Santos do Nascimento (RA:1072616331), https://github.com/riansn31 , 
 
 Desenvolvido utilizado JDK 25.0.2 e NetBeans 29
 
