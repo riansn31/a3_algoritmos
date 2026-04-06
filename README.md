@@ -39,6 +39,7 @@ As informações de um produto são:
 [GitHub Profile](https://github.com/LeoZancanaro)
 
 **João Henrique Marchetto Vieira** 
+(RA: 1072618663)
 [GitHub Profile](https://github.com/JoaoHenriqueJPG)
 
 ### Tecnologias Utilizadas
