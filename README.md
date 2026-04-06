@@ -44,6 +44,8 @@ As informações de um produto são:
 * **Matheus Antonio Seledes Dos Santos** (RA: 1072618508) - Matheus6042
 [GitHub Profile](https://github.com/Matheus6042)
 
+* **Johnn Lucas Luiz Rosa** (RA:) - johnnLucas [GitHub Profile](https://github.com/johnnLucas)
+
 ---
 
 ### Tecnologias Utilizadas
