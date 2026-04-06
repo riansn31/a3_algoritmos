@@ -32,19 +32,19 @@ As informações de um produto são:
 ---
 
 ### Desenvolvedores
-**Rian Santos do Nascimento** (RA: 1072616331)  
+* **Rian Santos do Nascimento** (RA: 1072616331) - riansn31
 [GitHub Profile](https://github.com/riansn31)
 
-**Leonardo Zancanaro** (RA: 1072617320)  
+* **Leonardo Zancanaro** (RA: 1072617320) - LeoZancanaro 
 [GitHub Profile](https://github.com/LeoZancanaro)
 
-**João Henrique Marchetto Vieira** 
-(RA: 1072618663)  
+* **João Henrique Marchetto Vieira** (RA: 1072618663) - JoaoHenriqueJPG
 [GitHub Profile](https://github.com/JoaoHenriqueJPG)
 
-**Matheus Antonio Seledes Dos Santos** 
-(RA: 1072618508)  
+* **Matheus Antonio Seledes Dos Santos** (RA: 1072618508) - Matheus6042
 [GitHub Profile](https://github.com/Matheus6042)
+
+---
 
 ### Tecnologias Utilizadas
 * **JDK:** 25.0.2
