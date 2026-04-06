@@ -34,7 +34,8 @@ As informações de um produto são:
 ### Desenvolvedores
 **Rian Santos do Nascimento** (RA: 1072616331)  
 [GitHub Profile](https://github.com/riansn31)
-**Leonardo Zancanaro** (RA: 1072617320)
+
+**Leonardo Zancanaro** (RA: 1072617320)  
 [GitHub Profile](https://github.com/LeoZancanaro)
 
 ### Tecnologias Utilizadas
