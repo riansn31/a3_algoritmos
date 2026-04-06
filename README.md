@@ -42,6 +42,10 @@ As informações de um produto são:
 (RA: 1072618663)  
 [GitHub Profile](https://github.com/JoaoHenriqueJPG)
 
+**Matheus Antonio Seledes Dos Santos** 
+(RA: 1072618508)  
+[GitHub Profile](https://github.com/Matheus6042)
+
 ### Tecnologias Utilizadas
 * **JDK:** 25.0.2
 * **IDE:** NetBeans 29
