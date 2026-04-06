@@ -38,9 +38,8 @@ As informações de um produto são:
 **Leonardo Zancanaro** (RA: 1072617320)  
 [GitHub Profile](https://github.com/LeoZancanaro)
 
-**João Henrique Marchetto Vieira ** (RA:1072618663)
-[GitHub Profile]
-(https://github.com/JoaoHenriqueJPG)
+**João Henrique Marchetto Vieira** 
+[GitHub Profile](https://github.com/JoaoHenriqueJPG)
 
 ### Tecnologias Utilizadas
 * **JDK:** 25.0.2
