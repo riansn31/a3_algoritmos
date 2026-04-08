@@ -38,8 +38,9 @@ public class Main {
                     break;
                 case "4":
                     JOptionPane.showMessageDialog(null, "Abrindo Relatórios...");
+                    menuRelatorios();
                     break;
-                case "0": {
+                case "0": 
                     int confirm = JOptionPane.showConfirmDialog(null, "DESEJA REALMENTE FINALIZAR?", "Confirmação", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         JOptionPane.showMessageDialog(null, "Sistema encerrado.");
@@ -47,7 +48,7 @@ public class Main {
                     } else {
                         opmenu = "";
                     }
-                }
+                    break;
                 default:
                     JOptionPane.showMessageDialog(null, "OPÇÃO INVÁLIDA!");
                     break;
@@ -56,17 +57,19 @@ public class Main {
     }
 
     public static void menuCadastro() {
-        String menuCadastro = """
-            --- CADASTRO DE PRODUTOS ---
-            1 - Incluir Produto
-            2 - Alterar Produto
-            3 - Excluir Produto
-            0 - Voltar ao Menu Principal
-            
-            OPÇÃO:""";
+        String menuCad = """
+        --- CADASTRO DE PRODUTOS ---
+        1 - Incluir Produto
+        2 - Alterar Produto
+        3 - Consultar produto
+        4 - Excluir Produto
+        0 - Voltar ao Menu Principal
+        
+        OPÇÃO:""";
+
         String op;
         do {
-            op = JOptionPane.showInputDialog(null, menuCadastro);
+            op = JOptionPane.showInputDialog(null, menuCad);
             if (op == null) {
                 break;
             }
@@ -89,5 +92,45 @@ public class Main {
         } while (!"0".equals(op));
 
     }
-}
 
+    public static void menuRelatorios() {
+        String menuRel = """
+        --- RELATÓRIOS ---
+        1 - Relatórios de Inventário
+        2 - Relatórios de Alerta
+        3 - Relatórios de Movimentação
+        4 - Relatórios Financeiros de Estoque
+        0 - Voltar ao Menu Principal
+        
+        OPÇÃO:""";
+
+        String op;
+        do {
+            op = JOptionPane.showInputDialog(null, menuRel);
+            if (op == null) {
+                break;
+            }
+            switch (op) {
+                case "1":
+                    JOptionPane.showMessageDialog(null, "Abrindo Relatórios de Inventário...");
+                    break;
+                case "2":
+                    JOptionPane.showMessageDialog(null, "Abrindo Relatórios de Alerta...");
+                    break;
+                case "3":
+                    JOptionPane.showMessageDialog(null, "Abrindo Relatórios de Movimentação...");
+                    break;
+                case "4":
+                    JOptionPane.showMessageDialog(null, "Abrindo Relatórios Financeiros de Estoque...");
+                    break;
+                case "0":
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Opção inválida!");
+                    break;
+            }
+
+        } while (!"0".equals(op));
+
+    }
+}
