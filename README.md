@@ -27,7 +27,6 @@ As informações de um produto são:
 * O programa deverá ser desenvolvido com o uso de sub-rotinas (procedimentos e funções).
 * Os relatórios deverão ser feitos para serem exibidos no vídeo.
 * Os dados deverão ser armazenados em um ou mais vetores.
-* Os layouts de telas e relatórios apresentados a seguir são uma sugestão, podendo ser alterados esteticamente, desde que apresentem as informações e funcionalidades especificadas.
 
 ---
 
