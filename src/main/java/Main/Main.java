@@ -7,6 +7,14 @@ import javax.swing.JOptionPane;
  */
 public class Main {
 
+    static int[] id = new int[100];//armazena os id's
+    static String[] nome = new String[100];//armazena os nomes
+    static double[] preco = new double[100];//armazena os preços
+    static String[] unidade = new String[100];//armazena as unidades
+    static double[] quantidade = new double[100];//armazena as quantidades
+
+    static int total = 0;
+
     public static void main(String[] args) {
         //String que vai conter o texto do menu
         String menu = """
@@ -38,6 +46,7 @@ public class Main {
             switch (opmenu) {
                 case "1":
                     JOptionPane.showMessageDialog(null, "Abrindo Cadastro...");
+                    menuCadastro();//chama o metodo menuCadastro
                     break;
                 case "2":
                     JOptionPane.showMessageDialog(null, "Abrindo Movimentação...");
@@ -94,6 +103,7 @@ public class Main {
             switch (op) {
                 case "1":
                     JOptionPane.showMessageDialog(null, "Incluir Produto");
+                    incluirProd();//chama o método incluirProd()
                     break;
                 case "2":
                     JOptionPane.showMessageDialog(null, "Alterar Produto");
@@ -112,6 +122,39 @@ public class Main {
     }
 
     /**
+     * sistema de inclusão
+     */
+    public static void incluirProd() {
+        //verifica se tem espaço no vetor
+        if (total >= id.length) {
+            JOptionPane.showMessageDialog(null, "Cadastro cheio!");//alerta estar cheio caso esteja
+        } else {
+            int thisId = Integer.parseInt(JOptionPane.showInputDialog("Digite o id: "));//pede o id para o usuario e armazena na variável thisId
+            //chama o método buscarPorId() e verifica se o id ja foi cadastratado
+            if (buscarPorId(thisId) != -1) {
+                JOptionPane.showMessageDialog(null, "Id já cadastrado");//alerta caso o id já esteja em uso
+            } else {
+                id[total] = thisId;//atribui o id do produto no respectivo vetor
+                nome[total] = JOptionPane.showInputDialog("Digite o nome do produto a ser cadastrado: ");//atribui o id do produto no respectivo vetor
+                preco[total] = Integer.parseInt(JOptionPane.showInputDialog("Digite o preço do produto a ser casdastrado: "));//atribui o preço do produto no respectivo vetor
+                quantidade[total] = Double.parseDouble(JOptionPane.showInputDialog("Digite a quantidade do produto a ser cadastrado: "));//atribui a quantidade do produto no respectivo vetor
+                unidade[total] = JOptionPane.showInputDialog("Digite a unidade do produto a ser cadastrado: ");//atribui a unidade do produto no respectivo vetor
+                //confirma que o produto foi cadastrado e mostra os dados do produto que o usuário cadastrou
+                JOptionPane.showMessageDialog(null, """
+                                                    Produto cadastrado com sucesso!
+                                                    id: """ + id[total] + "\n"
+                        + "nome : " + nome[total] + "\n"
+                        + "preço: " + preco[total] + "R$\n"
+                        + "quantidade: " + quantidade[total] + " " + unidade[total]);
+                //prepara o total pro proximo produto
+                total++;
+
+            }
+        }
+
+    }
+
+    /**
      * Menu de relatórios
      */
     public static void menuRelatorios() {
@@ -125,7 +168,7 @@ public class Main {
         0 - Voltar ao Menu Principal
         
         OPÇÃO:""";
-        
+
         //variável que guarda a escolha do usuário
         String op;
         //loop do menu de cadastro
@@ -158,5 +201,18 @@ public class Main {
 
         } while (!"0".equals(op));//mantém o loop até o usuário escolher sair
 
+    }
+
+    static int buscarPorId(int ids) {
+
+        // percorre o vetor procurando o ID
+        for (int i = 0; i < total; i++) {
+
+            if (id[i] == ids) {
+                return i; // retorna a posição encontrada
+            }
+        }
+
+        return -1; // não encontrou
     }
 }
