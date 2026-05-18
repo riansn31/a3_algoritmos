@@ -7,6 +7,10 @@ import javax.swing.JOptionPane;
  */
 public class Main {
 
+    static Produto[] estoque = new Produto[100];//criando um vetor para armazenar 100 objetos da classe produto
+
+    static int total = 0;
+
     public static void main(String[] args) {
         //String que vai conter o texto do menu
         String menu = """
@@ -38,6 +42,7 @@ public class Main {
             switch (opmenu) {
                 case "1":
                     JOptionPane.showMessageDialog(null, "Abrindo Cadastro...");
+                    menuCadastro();//chama o metodo menuCadastro
                     break;
                 case "2":
                     JOptionPane.showMessageDialog(null, "Abrindo Movimentação...");
@@ -94,6 +99,7 @@ public class Main {
             switch (op) {
                 case "1":
                     JOptionPane.showMessageDialog(null, "Incluir Produto");
+                    incluirProd();//chama o método incluirProd()
                     break;
                 case "2":
                     JOptionPane.showMessageDialog(null, "Alterar Produto");
@@ -112,6 +118,48 @@ public class Main {
     }
 
     /**
+     * sistema de inclusão
+     */
+    public static void incluirProd() {
+        //verifica se tem espaço no vetor
+        if (total >= estoque.length) {
+            JOptionPane.showMessageDialog(null, "Cadastro cheio!");//alerta estar cheio caso esteja
+            return;//não executa o resto dos comandos caso esteja cheio
+        }
+        try {
+            int thisId = Integer.parseInt(JOptionPane.showInputDialog("Digite o id: "));//atribui o id digitado pelo usuário na variável thisId
+
+            if (buscarPorId(thisId) != -1) {//chama o método buscarPorId() e verifica se o id ja foi cadastratado
+                
+                JOptionPane.showMessageDialog(null, "Id já cadastrado");//alerta caso o id já esteja em uso
+
+            } else {
+                String nomeDigitado = JOptionPane.showInputDialog("Digite o nome do produto a ser cadastrado: ");//atribui o nome digitado pelo usuário na variável nomeDigitado
+                double precoDigitado = Double.parseDouble(JOptionPane.showInputDialog("Digite o preço do produto a ser casdastrado: "));//atribui o preço digitado pelo usuário na variável precoDigitado
+                double qtdDigitada = Double.parseDouble(JOptionPane.showInputDialog("Digite a quantidade do produto a ser cadastrado: "));//atribui a quantidade digitado pelo usuário na variável qtdDigitada
+                String unidadeDigitada = JOptionPane.showInputDialog("Digite a unidade do produto a ser cadastrado: ");//atribui a unidade digitada pelo usuário na variável unidadeDigitada
+                
+                Produto novoProduto = new Produto(thisId,nomeDigitado,precoDigitado,qtdDigitada,unidadeDigitada);//usa o construtor pra criar um objeto da classe produto iniciada com os valores digitados
+                
+                estoque[total] = novoProduto;//atribui o objeto temporário criado no vetor estoque[]
+                
+                //confirma que o produto foi cadastrado e mostra os dados do produto que o usuário cadastrou
+                JOptionPane.showMessageDialog(null, """
+                                                Produto cadastrado com sucesso!
+                                                id: """ + estoque[total].id + "\n"
+                    + "nome : " + estoque[total].nome + "\n"
+                    + "preço: " + estoque[total].preco + "R$\n"
+                    + "quantidade: " + estoque[total].quantidade + " " + estoque[total].unidade);
+                
+                //prepara o total pro proximo produto
+                total++;
+            }
+        } catch (NumberFormatException error) {//alerta caso o usúario digite letras ao invés de números nos campos que necessitam números
+            JOptionPane.showMessageDialog(null, "Digite apenas números nos campos Id, preço e quantidade");
+        }
+    }
+
+    /**
      * Menu de relatórios
      */
     public static void menuRelatorios() {
@@ -125,7 +173,7 @@ public class Main {
         0 - Voltar ao Menu Principal
         
         OPÇÃO:""";
-        
+
         //variável que guarda a escolha do usuário
         String op;
         //loop do menu de cadastro
@@ -158,5 +206,18 @@ public class Main {
 
         } while (!"0".equals(op));//mantém o loop até o usuário escolher sair
 
+    }
+
+    static int buscarPorId(int idProcurado) {
+
+        // percorre o vetor procurando o ID
+        for (int i = 0; i < total; i++) {
+
+            if (estoque[i].id == idProcurado) {
+                return i; // retorna a posição encontrada
+            }
+        }
+
+        return -1; // não encontrou
     }
 }
