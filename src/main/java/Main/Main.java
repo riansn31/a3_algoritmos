@@ -10,6 +10,8 @@ public class Main {
     static Produto[] estoque = new Produto[100];//criando um vetor para armazenar 100 objetos da classe produto
 
     static int total = 0;
+    
+    static int marcadorBuscarNome = 0;
 
     public static void main(String[] args) {
         //String que vai conter o texto do menu
@@ -46,9 +48,11 @@ public class Main {
                     break;
                 case "2":
                     JOptionPane.showMessageDialog(null, "Abrindo Movimentação...");
+                    menuMovimentacao();
                     break;
                 case "3":
                     JOptionPane.showMessageDialog(null, "Abrindo Reajuste...");
+                    menuReajuste();
                     break;
                 case "4":
                     JOptionPane.showMessageDialog(null, "Abrindo Relatórios...");
@@ -130,7 +134,7 @@ public class Main {
             int thisId = Integer.parseInt(JOptionPane.showInputDialog("Digite o id: "));//atribui o id digitado pelo usuário na variável thisId
 
             if (buscarPorId(thisId) != -1) {//chama o método buscarPorId() e verifica se o id ja foi cadastratado
-                
+
                 JOptionPane.showMessageDialog(null, "Id já cadastrado");//alerta caso o id já esteja em uso
 
             } else {
@@ -138,19 +142,19 @@ public class Main {
                 double precoDigitado = Double.parseDouble(JOptionPane.showInputDialog("Digite o preço do produto a ser casdastrado: "));//atribui o preço digitado pelo usuário na variável precoDigitado
                 double qtdDigitada = Double.parseDouble(JOptionPane.showInputDialog("Digite a quantidade do produto a ser cadastrado: "));//atribui a quantidade digitado pelo usuário na variável qtdDigitada
                 String unidadeDigitada = JOptionPane.showInputDialog("Digite a unidade do produto a ser cadastrado: ");//atribui a unidade digitada pelo usuário na variável unidadeDigitada
-                
-                Produto novoProduto = new Produto(thisId,nomeDigitado,precoDigitado,qtdDigitada,unidadeDigitada);//usa o construtor pra criar um objeto da classe produto iniciada com os valores digitados
-                
+
+                Produto novoProduto = new Produto(thisId, nomeDigitado, precoDigitado, qtdDigitada, unidadeDigitada);//usa o construtor pra criar um objeto da classe produto iniciada com os valores digitados
+
                 estoque[total] = novoProduto;//atribui o objeto temporário criado no vetor estoque[]
-                
+
                 //confirma que o produto foi cadastrado e mostra os dados do produto que o usuário cadastrou
                 JOptionPane.showMessageDialog(null, """
                                                 Produto cadastrado com sucesso!
                                                 id: """ + estoque[total].id + "\n"
-                    + "nome : " + estoque[total].nome + "\n"
-                    + "preço: " + estoque[total].preco + "R$\n"
-                    + "quantidade: " + estoque[total].quantidade + " " + estoque[total].unidade);
-                
+                        + "nome : " + estoque[total].nome + "\n"
+                        + "preço: " + estoque[total].preco + "R$\n"
+                        + "quantidade: " + estoque[total].quantidade + estoque[total].unidade);
+
                 //prepara o total pro proximo produto
                 total++;
             }
@@ -219,5 +223,70 @@ public class Main {
         }
 
         return -1; // não encontrou
+    }
+
+    public static void menuMovimentacao() {
+        String menuMov = """
+                         --- MOVIMENTAÇÃO ---
+                         1 - Entrada de Produtos
+                         2 - Saída de Produtos
+                         0 - Voltar ao Menu Principal
+                         
+                         OPÇÃO: """;
+
+        String op;
+
+        do {
+            op = JOptionPane.showInputDialog(null, menuMov);
+            if (op == null) {
+                break;
+            }
+
+            switch (op) {
+                case "1":
+                    JOptionPane.showMessageDialog(null, "Abrindo Entrada de Produtos");
+                    entradaProd();
+                    break;
+                case "2":
+                    JOptionPane.showMessageDialog(null, "Abrindo Saída de Produtos");
+                    break;
+                case "0":
+                    break;
+                default:
+                    JOptionPane.showInputDialog(null, "Opção Inválida");
+            }
+        } while (!op.equals("0"));
+    }
+
+    public static void entradaProd() {
+        String nomeProd;
+        do {
+            nomeProd = JOptionPane.showInputDialog(null, "Digite o nome do produto que receberá a entrada");
+            if (buscarNome(nomeProd).equals(nomeProd)) {
+
+                JOptionPane.showMessageDialog(null, "Quatidade atual do Produto: " + estoque[marcadorBuscarNome].quantidade +
+                        estoque[marcadorBuscarNome].unidade);
+                break;
+            } else {
+
+                JOptionPane.showMessageDialog(null, "Produto Inválido");
+            }
+        } while (!buscarNome(nomeProd).equals(nomeProd));
+    }
+
+    static String buscarNome(String nomeProcurado) {
+        for (int i = 0; i < total; i++) {
+
+            if (estoque[i].nome.equals(nomeProcurado)) {
+                marcadorBuscarNome = i;
+                return nomeProcurado;
+            }
+        }
+
+        return "";
+    }
+    
+    public static void menuReajuste() {
+        JOptionPane.showMessageDialog(null, "Certo");
     }
 }
