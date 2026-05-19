@@ -568,11 +568,10 @@ public class Main {
                       "Nome: " + p.nome + "\n" +
                       "Preço Atual: R$ " + p.preco + "\n" +
                       "Qtd em Estoque: " + p.quantidade + " " + p.unidade;
-
          JOptionPane.showMessageDialog(null, mensagem);
           JOptionPane.showInputDialog(null, "Digite o novo valor para " + p.nome + ":");
     } else {
-        JOptionPane.showMessageDialog(null, "Produto não encontrado!");
+        JOptionPane.showMessageDialog(null, "Produto não encontrado");
     }
         }
     }
