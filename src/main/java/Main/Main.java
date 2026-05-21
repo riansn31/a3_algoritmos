@@ -18,11 +18,14 @@ public class Main {
     static int total = 0;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     static int marcadorBuscarNome = 0; //Variável na qual guarda a posição do vetor através da procura por nome
 =======
     static int marcadorBuscarNome = 0;
 >>>>>>> ad80b04 (init: Inicio do projeto)
 
+=======
+>>>>>>> e291402 (Adcionando o menu de reajustes, tela de reajuste, e processo de reajuste dos processos para um único produto.)
     public static void main(String[] args) {
         //String que vai conter o texto do menu
         String menu = """
@@ -58,11 +61,10 @@ public class Main {
                     break;
                 case "2":
                     JOptionPane.showMessageDialog(null, "Abrindo Movimentação...");
-                    menuMovimentacao();
                     break;
                 case "3":
                     JOptionPane.showMessageDialog(null, "Abrindo Reajuste...");
-                    menuReajuste();
+                    menuReajuste();//chama o metodo menuReajuste
                     break;
                 case "4":
                     JOptionPane.showMessageDialog(null, "Abrindo Relatórios...");
@@ -163,13 +165,150 @@ public class Main {
                                                 id: """ + estoque[total].id + "\n"
                         + "nome : " + estoque[total].nome + "\n"
                         + "preço: " + estoque[total].preco + "R$\n"
-                        + "quantidade: " + estoque[total].quantidade + estoque[total].unidade);
+                        + "quantidade: " + estoque[total].quantidade + " " + estoque[total].unidade);
 
                 //prepara o total pro proximo produto
                 total++;
             }
         } catch (NumberFormatException error) {//alerta caso o usúario digite letras ao invés de números nos campos que necessitam números
             JOptionPane.showMessageDialog(null, "Digite apenas números nos campos Id, preço e quantidade");
+        }
+    }
+
+    /**
+     * Menu de reajuste de preços
+     */
+    public static void menuReajuste() {
+
+        String menu = """
+    --- REAJUSTE DE PREÇOS ---
+    
+    1 - Reajustar um produto
+    2 - Reajustar todos os produtos
+    0 - Voltar
+    
+    OPÇÃO:
+    """;
+        String op;
+
+        do {
+            op = JOptionPane.showInputDialog(null, menu);
+
+            if (op == null) {
+                break;
+            }
+
+            switch (op) {
+
+                case "1":
+                    reajustarUmProduto();
+                    break;
+
+                case "2":
+                    //reajustarTodosProdutos();
+                    break;
+
+                case "0":
+                    break;
+
+                default:
+                    JOptionPane.showMessageDialog(null, "Opção inválida!");
+                    break;
+            }
+
+        } while (!op.equals("0"));
+    }
+
+    /**
+     * Buscar produto pelo nome
+     */
+    public static int buscarPorNome(String nomeProcurado) {
+
+        for (int i = 0; i < total; i++) {
+
+            if (estoque[i].nome.equalsIgnoreCase(nomeProcurado)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * Reajustar apenas um produto
+     */
+    public static void reajustarUmProduto() {
+
+        if (total == 0) {
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Nenhum produto cadastrado!"
+            );
+
+            return;
+        }
+
+        String nome = JOptionPane.showInputDialog(
+                "Digite o nome do produto:"
+        );
+
+        if (nome == null) {
+            return;
+        }
+
+        int posicao = buscarPorNome(nome);
+
+        if (posicao == -1) {
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Produto não encontrado!"
+            );
+
+        } else {
+
+            Produto p = estoque[posicao];
+
+            try {
+
+                double percentual = Double.parseDouble(
+                        JOptionPane.showInputDialog(
+                                "Produto: " + p.nome
+                                + "\nPreço atual: R$ " + p.preco
+                                + "\n\nDigite o percentual de reajuste:"
+                        )
+                );
+
+                double novoPreco = p.preco
+                        + (p.preco * percentual / 100);
+
+                int confirma = JOptionPane.showConfirmDialog(
+                        null,
+                        "Preço atual: R$ " + p.preco
+                        + "\nNovo preço: R$ " + novoPreco
+                        + "\n\nConfirmar reajuste?",
+                        "Confirmação",
+                        JOptionPane.YES_NO_OPTION
+                );
+
+                if (confirma == JOptionPane.YES_OPTION) {
+
+                    p.preco = novoPreco;
+
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Reajuste realizado com sucesso!"
+                    );
+                }
+
+            } catch (NumberFormatException erro) {
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Digite apenas números!"
+                );
+            }
         }
     }
 
@@ -349,6 +488,7 @@ public class Main {
 
         return -1; // não encontrou
     }
+<<<<<<< HEAD
 
     /**
      * Exibe o menu principal de movimentação de produtos.
@@ -575,3 +715,6 @@ public class Main {
     }
         }
     }
+=======
+}
+>>>>>>> e291402 (Adcionando o menu de reajustes, tela de reajuste, e processo de reajuste dos processos para um único produto.)
