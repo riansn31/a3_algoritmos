@@ -17,8 +17,6 @@ public class Main {
 
     static int total = 0;
 
-    static int marcadorBuscarNome = 0;
-
     static int marcadorBuscarNome = 0; //Variável na qual guarda a posição do vetor através da procura por nome
 
     public static void main(String[] args) {
@@ -426,59 +424,6 @@ public class Main {
                     break;
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Produto Inválido");
-            }
-        } while (!buscarNome(nomeProd).equals(nomeProd));
-    }
-
-    public static void saidaProd() {
-        if (total == 0) {
-            JOptionPane.showMessageDialog(null, "Estoque vazio");
-            return;
-        }
-        String nomeProd;
-        do {
-            nomeProd = JOptionPane.showInputDialog(null, "Digite o nome do produto que receberá a saída");
-            if (buscarNome(nomeProd).equals(nomeProd)) {
-                JOptionPane.showMessageDialog(null, "Quatidade atual do Produto: " + estoque[marcadorBuscarNome].quantidade
-                        + estoque[marcadorBuscarNome].unidade);
-                double quantidade = estoque[marcadorBuscarNome].quantidade;
-                double saida = 0;
-                do {
-                    try {
-                        saida = Integer.parseInt(JOptionPane.showInputDialog(null, "Quantidade de saída:"));
-                    } catch (NumberFormatException error) {
-                        JOptionPane.showMessageDialog(null, "Digite apenas números nos campo");
-                    }
-                    if ((quantidade - saida) <= 0) {
-                        JOptionPane.showMessageDialog(null, "Saída inválida");
-                    }
-                } while (saida == 0 || (quantidade - saida) <= 0);
-
-                JOptionPane.showMessageDialog(null, "Quantidade final: " + (quantidade - saida) + estoque[marcadorBuscarNome].unidade);
-                int escolha = JOptionPane.showConfirmDialog(null, "Confirma saída \n" + estoque[marcadorBuscarNome].nome + "\n" + (quantidade
-                        - saida) + estoque[marcadorBuscarNome].unidade, "Confirma", JOptionPane.YES_NO_OPTION);
-                if (escolha == JOptionPane.YES_NO_OPTION) {
-                    estoque[marcadorBuscarNome].quantidade = quantidade - saida;
-                    historicoMov.append(String.format("%-20s | SAÍDA   | %10.2f | SALDO: %.2f\n",
-                            estoque[marcadorBuscarNome].nome, saida, estoque[marcadorBuscarNome].quantidade));
-
-                    break;
-                }
-            } else {
-=======
-                
-                JOptionPane.showMessageDialog(null, "Quantidade final: " + (quantidade + entrada) + estoque[marcadorBuscarNome].unidade);
-                int escolha = JOptionPane.showConfirmDialog(null, "Confirma entrada \n" + estoque[marcadorBuscarNome].nome + "\n" + (quantidade +
-                        entrada) + estoque[marcadorBuscarNome].unidade, "Confirma", JOptionPane.YES_NO_OPTION);
-                
-                // Atualiza o estoque caso o usuário confirme
-                if (escolha == JOptionPane.YES_NO_OPTION) {
-                    estoque[marcadorBuscarNome].quantidade = quantidade + entrada;
-                    break;
-                }
-            } else {
-
                 JOptionPane.showMessageDialog(null, "Produto Inválido");
             }
         } while (!buscarNome(nomeProd).equals(nomeProd));
