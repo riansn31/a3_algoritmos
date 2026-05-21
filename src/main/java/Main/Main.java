@@ -19,6 +19,8 @@ public class Main {
 
     static int marcadorBuscarNome = 0;
 
+    static int marcadorBuscarNome = 0; //Variável na qual guarda a posição do vetor através da procura por nome
+
     public static void main(String[] args) {
         //String que vai conter o texto do menu
         String menu = """
@@ -346,6 +348,11 @@ public class Main {
         return -1; // não encontrou
     }
 
+    /**
+     * Exibe o menu principal de movimentação de produtos.
+     * Permite ao usuário escolher entre dar entrada em produtos, 
+     * registrar saída ou voltar ao menu principal.
+     */
     public static void menuMovimentacao() {
         String menuMov = """
                          --- MOVIMENTAÇÃO ---
@@ -359,6 +366,8 @@ public class Main {
 
         do {
             op = JOptionPane.showInputDialog(null, menuMov);
+            
+            // Tratamento caso o usuário clique em "Cancelar" ou feche a janela
             if (op == null) {
                 break;
             }
@@ -380,6 +389,12 @@ public class Main {
         } while (!op.equals("0"));
     }
 
+    /**
+     * Realiza a operação de entrada (adição) de produtos no estoque.
+     * Verifica se o estoque está vazio. Caso não esteja, solicita o nome do produto,
+     * valida a existência, solicita a quantidade a ser adicionada e, 
+     * mediante confirmação do usuário, atualiza o saldo do produto.
+     */
     public static void entradaProd() {
         if (total == 0) {
             JOptionPane.showMessageDialog(null, "Estoque vazio");
@@ -389,19 +404,17 @@ public class Main {
         do {
             nomeProd = JOptionPane.showInputDialog(null, "Digite o nome do produto que receberá a entrada");
             if (buscarNome(nomeProd).equals(nomeProd)) {
-
                 JOptionPane.showMessageDialog(null, "Quatidade atual do Produto: " + estoque[marcadorBuscarNome].quantidade
                         + estoque[marcadorBuscarNome].unidade);
                 double quantidade = estoque[marcadorBuscarNome].quantidade;
                 double entrada = 0;
                 do {
                     try {
-                        entrada = Integer.parseInt(JOptionPane.showInputDialog(null, "Quantidade de entrada:"));
+                        entrada = Double.parseDouble(JOptionPane.showInputDialog(null, "Quantidade de entrada:"));
                     } catch (NumberFormatException error) {
                         JOptionPane.showMessageDialog(null, "Digite apenas números nos campo");
                     }
                 } while (entrada == 0);
-
                 JOptionPane.showMessageDialog(null, "Quantidade final: " + (quantidade + entrada) + estoque[marcadorBuscarNome].unidade);
                 int escolha = JOptionPane.showConfirmDialog(null, "Confirma entrada \n" + estoque[marcadorBuscarNome].nome + "\n" + (quantidade
                         + entrada) + estoque[marcadorBuscarNome].unidade, "Confirma", JOptionPane.YES_NO_OPTION);
@@ -453,16 +466,84 @@ public class Main {
                     break;
                 }
             } else {
+=======
+                
+                JOptionPane.showMessageDialog(null, "Quantidade final: " + (quantidade + entrada) + estoque[marcadorBuscarNome].unidade);
+                int escolha = JOptionPane.showConfirmDialog(null, "Confirma entrada \n" + estoque[marcadorBuscarNome].nome + "\n" + (quantidade +
+                        entrada) + estoque[marcadorBuscarNome].unidade, "Confirma", JOptionPane.YES_NO_OPTION);
+                
+                // Atualiza o estoque caso o usuário confirme
+                if (escolha == JOptionPane.YES_NO_OPTION) {
+                    estoque[marcadorBuscarNome].quantidade = quantidade + entrada;
+                    break;
+                }
+            } else {
+
                 JOptionPane.showMessageDialog(null, "Produto Inválido");
             }
         } while (!buscarNome(nomeProd).equals(nomeProd));
     }
-
+    
+    /**
+     * Realiza a operação de saída (remoção) de produtos do estoque.
+     * Verifica se o estoque está vazio. Após identificar o produto, 
+     * solicita a quantidade de saída garantindo que o saldo final não seja negativo ou zero.
+     * Mediante confirmação, atualiza o saldo do produto.
+     */
+     public static void saidaProd() {
+        if (total == 0) {
+            JOptionPane.showMessageDialog(null, "Estoque vazio");
+            return;
+        }
+        String nomeProd;
+        do {
+            nomeProd = JOptionPane.showInputDialog(null, "Digite o nome do produto que receberá a saída");
+            if (buscarNome(nomeProd).equals(nomeProd)) {
+                JOptionPane.showMessageDialog(null, "Quatidade atual do Produto: " + estoque[marcadorBuscarNome].quantidade
+                        + estoque[marcadorBuscarNome].unidade);
+                double quantidade = estoque[marcadorBuscarNome].quantidade;
+                double saida = 0;
+                do {
+                    try {
+                        saida = Double.parseDouble(JOptionPane.showInputDialog(null, "Quantidade de saída:"));
+                    } catch (NumberFormatException error) {
+                        JOptionPane.showMessageDialog(null, "Digite apenas números nos campo");
+                    }
+                    
+                    // Inválida se a saída deixar o estoque zerado ou negativo
+                    if ((quantidade - saida) <= 0) {
+                        JOptionPane.showMessageDialog(null, "Saída inválida");
+                    }
+                } while (saida == 0 || (quantidade - saida) <= 0);
+                
+                JOptionPane.showMessageDialog(null, "Quantidade final: " + (quantidade - saida) + estoque[marcadorBuscarNome].unidade);
+                int escolha = JOptionPane.showConfirmDialog(null, "Confirma saída \n" + estoque[marcadorBuscarNome].nome + "\n" + (quantidade -
+                        saida) + estoque[marcadorBuscarNome].unidade, "Confirma", JOptionPane.YES_NO_OPTION);
+                
+                // Atualiza o estoque caso o usuário confirme
+                if (escolha == JOptionPane.YES_NO_OPTION) {
+                    estoque[marcadorBuscarNome].quantidade = quantidade - saida;
+                    break;
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Produto Inválido");
+            }
+        } while (!buscarNome(nomeProd).equals(nomeProd));
+    }
+     
+     /**
+     * Busca um produto no vetor de estoque pelo nome exato.
+     * Se o produto for encontrado, a variável global 'marcadorBuscarNome'
+     * é atualizada com o índice correspondente no vetor.
+     *
+     * @param nomeProcurado O nome do produto a ser pesquisado.
+     * @return O nome do produto caso seja encontrado, ou uma String vazia ("") caso contrário.
+     */
     static String buscarNome(String nomeProcurado) {
         for (int i = 0; i < total; i++) {
 
             if (estoque[i].nome.equals(nomeProcurado)) {
-                marcadorBuscarNome = i;
+                marcadorBuscarNome = i; // Salva a posição (índice) do produto encontrado
                 return nomeProcurado;
             }
         }
