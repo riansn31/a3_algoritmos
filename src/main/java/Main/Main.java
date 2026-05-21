@@ -466,7 +466,6 @@ public class Main {
                     break;
                 }
             } else {
-=======
                 
                 JOptionPane.showMessageDialog(null, "Quantidade final: " + (quantidade + entrada) + estoque[marcadorBuscarNome].unidade);
                 int escolha = JOptionPane.showConfirmDialog(null, "Confirma entrada \n" + estoque[marcadorBuscarNome].nome + "\n" + (quantidade +
