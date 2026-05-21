@@ -322,7 +322,7 @@ public class Main {
         String nomeProd;
         do {
             nomeProd = JOptionPane.showInputDialog(null, "Digite o nome do produto que receberá a saída");
-            if (buscarNome(nomeProd).equals(nomeProd)) {
+            if (buscarNome(nomeProd).equals(nomeProd) && !nomeProd.equals("")) {
                 JOptionPane.showMessageDialog(null, "Quatidade atual do Produto: " + estoque[marcadorBuscarNome].quantidade
                         + estoque[marcadorBuscarNome].unidade);
                 double quantidade = estoque[marcadorBuscarNome].quantidade;
