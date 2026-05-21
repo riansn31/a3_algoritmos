@@ -1,6 +1,10 @@
 package Main;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import java.awt.Font;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Programa principal do controle de estoque..
@@ -8,6 +12,8 @@ import javax.swing.JOptionPane;
 public class Main {
 
     static Produto[] estoque = new Produto[100];//criando um vetor para armazenar 100 objetos da classe produto
+
+    static StringBuilder historicoMov = new StringBuilder();
 
     static int total = 0;
 
@@ -170,10 +176,9 @@ public class Main {
         //String que vai conter o texto do menu
         String menuRel = """
         --- RELATÓRIOS ---
-        1 - Relatórios de Inventário
-        2 - Relatórios de Alerta
-        3 - Relatórios de Movimentação
-        4 - Relatórios Financeiros de Estoque
+        1 - Relatórios de Preços
+        2 - Relatórios de Movimentação
+        3 - Relatórios Financeiros de Estoque
         0 - Voltar ao Menu Principal
         
         OPÇÃO:""";
@@ -190,16 +195,16 @@ public class Main {
             //estrutura pra ler a opção que o usuário escolheu e decidir qual método vai executar
             switch (op) {
                 case "1":
-                    JOptionPane.showMessageDialog(null, "Abrindo Relatórios de Inventário...");
+                    JOptionPane.showMessageDialog(null, "Abrindo Relatórios de Preços...");
+                    relatorioPrecos();
                     break;
                 case "2":
-                    JOptionPane.showMessageDialog(null, "Abrindo Relatórios de Alerta...");
+                    JOptionPane.showMessageDialog(null, "Abrindo Relatórios de Movimentação...");
+                    relatorioMovimentacao();
                     break;
                 case "3":
-                    JOptionPane.showMessageDialog(null, "Abrindo Relatórios de Movimentação...");
-                    break;
-                case "4":
                     JOptionPane.showMessageDialog(null, "Abrindo Relatórios Financeiros de Estoque...");
+                    relatorioFinanceiro();
                     break;
                 case "0":
                     break;
@@ -209,7 +214,123 @@ public class Main {
             }
 
         } while (!"0".equals(op));//mantém o loop até o usuário escolher sair
+    }
 
+    public static void relatorioPrecos() {
+        if (total == 0) {
+            JOptionPane.showMessageDialog(null, "Estoque vazio!");
+            return;
+        }
+
+        StringBuilder relatorio = new StringBuilder();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yy");
+        String dataHoje = dtf.format(LocalDateTime.now());
+
+        relatorio.append(dataHoje).append(" LISTA DE PREÇOS PG 001\n\n");
+        relatorio.append(String.format("%-30s %-10s %12s\n", "PRODUTO", "UND", "PREÇO"));
+        relatorio.append("----------------------------------------------------------\n");
+
+        for (int i = 0; i < total; i++) {
+            Produto p = estoque[i];
+
+            String nomeFormatado = p.nome;
+            if (nomeFormatado.length() > 30) {
+                nomeFormatado = nomeFormatado.substring(0, 27) + "...";
+            }
+
+            String unidadeFormatada = p.unidade.toUpperCase();
+            if (unidadeFormatada.length() > 10) {
+                unidadeFormatada = unidadeFormatada.substring(0, 10);
+            }
+
+            relatorio.append(String.format("%-30s %-10s %12.2f\n",
+                    nomeFormatado,
+                    unidadeFormatada,
+                    p.preco));
+        }
+
+        JTextArea textArea = new JTextArea(relatorio.toString());
+        textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        textArea.setEditable(false);
+
+        JOptionPane.showMessageDialog(null, textArea, "Relatório de Preços", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    public static void relatorioMovimentacao() {
+        if (historicoMov.length() == 0) {
+            JOptionPane.showMessageDialog(null, "Nenhuma movimentação registrada no histórico!");
+            return;
+        }
+
+        StringBuilder relatorio = new StringBuilder();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm");
+        String dataHoje = dtf.format(LocalDateTime.now());
+
+        relatorio.append(dataHoje).append(" HISTÓRICO DE MOVIMENTAÇÕES PG 001\n\n");
+        relatorio.append(String.format("%-20s | %-9s | %-10s | %s\n", "PRODUTO", "TIPO", "QTD", "SALDO FINAL"));
+        relatorio.append("----------------------------------------------------------------------\n");
+
+        relatorio.append(historicoMov.toString());
+        relatorio.append("----------------------------------------------------------------------\n");
+        relatorio.append("FIM DO RELATÓRIO DE HISTÓRICO");
+
+        JTextArea textArea = new JTextArea(relatorio.toString());
+        textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        textArea.setEditable(false);
+
+        JOptionPane.showMessageDialog(null, textArea, "Histórico de Movimentação", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    public static void relatorioFinanceiro() {
+        if (total == 0) {
+            JOptionPane.showMessageDialog(null, "Estoque vazio!");
+            return;
+        }
+
+        StringBuilder relatorio = new StringBuilder();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yy");
+        String dataHoje = dtf.format(LocalDateTime.now());
+
+        double somaQuantidades = 0;
+        double somaValorTotal = 0;
+
+        relatorio.append(dataHoje).append(" BALANÇO FÍSICO-FINANCEIRO PG 001\n\n");
+        relatorio.append(String.format("%-20s %-8s %12s %6s %15s\n", "PRODUTO", "UND", "PREÇO UNIT.", "QTDE", "PREÇO TOTAL"));
+        relatorio.append("----------------------------------------------------------------------\n");
+
+        for (int i = 0; i < total; i++) {
+            Produto p = estoque[i];
+            double precoTotalItem = p.preco * p.quantidade;
+
+            somaQuantidades += p.quantidade;
+            somaValorTotal += precoTotalItem;
+
+            String nomeFormatado = p.nome;
+            if (nomeFormatado.length() > 20) {
+                nomeFormatado = nomeFormatado.substring(0, 17) + "...";
+            }
+
+            String unidadeFormatada = p.unidade.toUpperCase();
+            if (unidadeFormatada.length() > 8) {
+                unidadeFormatada = unidadeFormatada.substring(0, 8);
+            }
+
+            relatorio.append(String.format("%-20s %-8s %12.2f %6.0f %15.2f\n",
+                    nomeFormatado,
+                    unidadeFormatada,
+                    p.preco,
+                    p.quantidade,
+                    precoTotalItem));
+        }
+
+        relatorio.append("----------------------------------------------------------------------\n");
+        relatorio.append(String.format("TOTAL DE ITENS NO ESTOQUE : %04.0f\n", somaQuantidades));
+        relatorio.append(String.format("VALOR TOTAL DO ESTOQUE    : R$ %,.2f\n", somaValorTotal));
+
+        JTextArea textArea = new JTextArea(relatorio.toString());
+        textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        textArea.setEditable(false);
+        JOptionPane.showMessageDialog(null, textArea, "Balanço Financeiro", JOptionPane.PLAIN_MESSAGE);
     }
 
     static int buscarPorId(int idProcurado) {
@@ -292,14 +413,14 @@ public class Main {
                         JOptionPane.showMessageDialog(null, "Digite apenas números nos campo");
                     }
                 } while (entrada == 0);
-                
                 JOptionPane.showMessageDialog(null, "Quantidade final: " + (quantidade + entrada) + estoque[marcadorBuscarNome].unidade);
-                int escolha = JOptionPane.showConfirmDialog(null, "Confirma entrada \n" + estoque[marcadorBuscarNome].nome + "\n" + (quantidade +
-                        entrada) + estoque[marcadorBuscarNome].unidade, "Confirma", JOptionPane.YES_NO_OPTION);
-                
-                // Atualiza o estoque caso o usuário confirme
+                int escolha = JOptionPane.showConfirmDialog(null, "Confirma entrada \n" + estoque[marcadorBuscarNome].nome + "\n" + (quantidade
+                        + entrada) + estoque[marcadorBuscarNome].unidade, "Confirma", JOptionPane.YES_NO_OPTION);
                 if (escolha == JOptionPane.YES_NO_OPTION) {
                     estoque[marcadorBuscarNome].quantidade = quantidade + entrada;
+                    historicoMov.append(String.format("%-20s | ENTRADA | %10.2f | SALDO: %.2f\n",
+                            estoque[marcadorBuscarNome].nome, entrada, estoque[marcadorBuscarNome].quantidade));
+
                     break;
                 }
             } else {
@@ -307,7 +428,6 @@ public class Main {
             }
         } while (!buscarNome(nomeProd).equals(nomeProd));
     }
-    
     /**
      * Realiza a operação de saída (remoção) de produtos do estoque.
      * Verifica se o estoque está vazio. Após identificar o produto, 
