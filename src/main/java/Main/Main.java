@@ -205,7 +205,7 @@ public class Main {
                     break;
 
                 case "2":
-                    //reajustarTodosProdutos();
+                    reajustarTodosProdutos();
                     break;
 
                 case "0":
@@ -311,6 +311,61 @@ public class Main {
             }
         }
     }
+   
+    /**
+ * Reajustar todos os produtos
+ */
+public static void reajustarTodosProdutos() {
+
+    if (total == 0) {
+
+        JOptionPane.showMessageDialog(
+                null,
+                "Nenhum produto cadastrado!"
+        );
+
+        return;
+    }
+
+    try {
+
+        double percentual = Double.parseDouble(
+                JOptionPane.showInputDialog(
+                        "Digite o percentual de reajuste para TODOS os produtos:"
+                )
+        );
+
+        int confirma = JOptionPane.showConfirmDialog(
+                null,
+                "Deseja aplicar " + percentual +
+                "% de reajuste em todos os produtos?",
+                "Confirmação",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirma == JOptionPane.YES_OPTION) {
+
+            for (int i = 0; i < total; i++) {
+
+                estoque[i].preco = estoque[i].preco +
+                        (estoque[i].preco * percentual / 100);
+            }
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Reajuste aplicado com sucesso!"
+            );
+        }
+
+    } catch (NumberFormatException erro) {
+
+        JOptionPane.showMessageDialog(
+                null,
+                "Digite apenas números!"
+        );
+    }
+}
+    
 
     /**
      * Menu de relatórios
