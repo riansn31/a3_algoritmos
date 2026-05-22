@@ -17,15 +17,8 @@ public class Main {
 
     static int total = 0;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     static int marcadorBuscarNome = 0; //Variável na qual guarda a posição do vetor através da procura por nome
-=======
-    static int marcadorBuscarNome = 0;
->>>>>>> ad80b04 (init: Inicio do projeto)
-
-=======
->>>>>>> e291402 (Adcionando o menu de reajustes, tela de reajuste, e processo de reajuste dos processos para um único produto.)
+  
     public static void main(String[] args) {
         //String que vai conter o texto do menu
         String menu = """
@@ -543,7 +536,6 @@ public static void reajustarTodosProdutos() {
 
         return -1; // não encontrou
     }
-<<<<<<< HEAD
 
     /**
      * Exibe o menu principal de movimentação de produtos.
@@ -620,14 +612,10 @@ public static void reajustarTodosProdutos() {
                     historicoMov.append(String.format("%-20s | ENTRADA | %10.2f | SALDO: %.2f\n",
                             estoque[marcadorBuscarNome].nome, entrada, estoque[marcadorBuscarNome].quantidade));
 
-<<<<<<< HEAD
-                    break;
                 }
-=======
                 JOptionPane.showMessageDialog(null, "Quatidade atual do Produto: " + estoque[marcadorBuscarNome].quantidade
                         + estoque[marcadorBuscarNome].unidade);
                 break;
->>>>>>> ad80b04 (init: Inicio do projeto)
             } else {
                 JOptionPane.showMessageDialog(null, "Produto Inválido");
             }
@@ -699,77 +687,5 @@ public static void reajustarTodosProdutos() {
 
         return "";
     }
-
-    public static void menuReajuste() {
-        String menuRea = """
-                         --- REAJUSTE GERAL OU DE UM PRODUTO ?  ---
-                         1 - Geral
-                         2 - Produto
-                         0 - Voltar ao Menu Principal
-                         
-                         OPÇÃO: """;
-
-        String op;
-
-        do {
-            op = JOptionPane.showInputDialog(null, menuRea);
-            if (op == null) {
-                break;
-            }
-
-            switch (op) {
-                case "1":
-                    JOptionPane.showMessageDialog(null, "Abrindo Reajuste geral ");
-                    reajusteMul();
-                    break;
-                case "2":
-                    JOptionPane.showMessageDialog(null, "Abrindo Rejuste Unitário");
-                    reajusteUni();
-                    break;
-                case "0":
-                    JOptionPane.showMessageDialog(null, "Encerrando reajuste");
-                    break;
-                default:
-                    JOptionPane.showInputDialog(null, "Opção Inválida");
-            }
-        } while (!op.equals("0"));
-    }
-
-    public static void reajusteMul() {
-        if (total == 0) {
-            JOptionPane.showMessageDialog(null, "Estoque vazio! Não há o que reajustar.");
-            return;
-        }
-        StringBuilder lista = new StringBuilder("--- PRODUTOS ANTES DO REAJUSTE ---\n");
-        for (int i = 0; i < total; i++) {
-            lista.append(String.format("ID: %d | %s | Preço Atual: R$ %.2f\n",
-                    estoque[i].id, estoque[i].nome, estoque[i].preco));
-        }
-        JOptionPane.showMessageDialog(null, lista.toString());
-    }
-
-    public static void reajusteUni() {
-        if (total == 0) {
-            JOptionPane.showMessageDialog(null, "Estoque vazio! Não há o que reajustar.");
-            return;
-        }
-        String nomeProcurado = JOptionPane.showInputDialog("Digite o nome exato do produto para reajuste:");
-        String resultado = buscarNome(nomeProcurado);
-        if (!resultado.equals("")) {
-            Produto p = estoque[marcadorBuscarNome];
-
-        String mensagem = "--- DADOS DO PRODUTO SELECIONADO ---\n" +
-                      "ID: " + p.id + "\n" +
-                      "Nome: " + p.nome + "\n" +
-                      "Preço Atual: R$ " + p.preco + "\n" +
-                      "Qtd em Estoque: " + p.quantidade + " " + p.unidade;
-         JOptionPane.showMessageDialog(null, mensagem);
-          JOptionPane.showInputDialog(null, "Digite o novo valor para " + p.nome + ":");
-    } else {
-        JOptionPane.showMessageDialog(null, "Produto não encontrado");
-    }
-        }
-    }
-=======
 }
->>>>>>> e291402 (Adcionando o menu de reajustes, tela de reajuste, e processo de reajuste dos processos para um único produto.)
+    
