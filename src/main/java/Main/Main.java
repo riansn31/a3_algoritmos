@@ -54,7 +54,7 @@ public class Main {
                     break;
                 case "2":
                     JOptionPane.showMessageDialog(null, "Abrindo Movimentação...");
-                    menuMovimentacao();//Chama o metodo menuMovimentação
+                    menuMovimentacao();//chama o metodo menuMovimentação
                     break;
                 case "3":
                     JOptionPane.showMessageDialog(null, "Abrindo Reajuste...");
