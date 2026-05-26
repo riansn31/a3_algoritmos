@@ -10,7 +10,7 @@ public class Main {
     static Produto[] estoque = new Produto[100];//criando um vetor para armazenar 100 objetos da classe produto
 
     static int total = 0;
-    
+
     static int marcadorBuscarNome = 0;
 
     public static void main(String[] args) {
@@ -107,10 +107,14 @@ public class Main {
                     break;
                 case "2":
                     JOptionPane.showMessageDialog(null, "Alterar Produto");
+                    alterarProd();
                     break;
                 case "3":
-                    JOptionPane.showMessageDialog(null, "Excluir Produto");
+                    JOptionPane.showMessageDialog(null, "Consultar Produto");
+                    consultarProd();
                     break;
+                case "4":
+                    JOptionPane.showMessageDialog(null, "Excluir Produto");
                 case "0":
                     break;
                 default:
@@ -151,9 +155,9 @@ public class Main {
                 JOptionPane.showMessageDialog(null, """
                                                 Produto cadastrado com sucesso!
                                                 id: """ + estoque[total].id + "\n"
-                        + "nome : " + estoque[total].nome + "\n"
-                        + "preço: " + estoque[total].preco + "R$\n"
-                        + "quantidade: " + estoque[total].quantidade + estoque[total].unidade);
+                        + "Nome: " + estoque[total].nome + "\n"
+                        + "Preço: " + estoque[total].preco + "R$\n"
+                        + "Quantidade: " + estoque[total].quantidade + estoque[total].unidade);
 
                 //prepara o total pro proximo produto
                 total++;
@@ -264,8 +268,8 @@ public class Main {
             nomeProd = JOptionPane.showInputDialog(null, "Digite o nome do produto que receberá a entrada");
             if (buscarNome(nomeProd).equals(nomeProd)) {
 
-                JOptionPane.showMessageDialog(null, "Quatidade atual do Produto: " + estoque[marcadorBuscarNome].quantidade +
-                        estoque[marcadorBuscarNome].unidade);
+                JOptionPane.showMessageDialog(null, "Quatidade atual do Produto: " + estoque[marcadorBuscarNome].quantidade
+                        + estoque[marcadorBuscarNome].unidade);
                 break;
             } else {
 
@@ -285,8 +289,98 @@ public class Main {
 
         return "";
     }
-    
+
     public static void menuReajuste() {
         JOptionPane.showMessageDialog(null, "Certo");
+    }
+
+    public static void alterarProd() {
+        String nomeProd;
+        double npreco;
+        String nunidade;
+        double auxiliar;
+        String auxiliarund;
+        
+        do {
+            nomeProd = JOptionPane.showInputDialog(null, "Digite o nome do produto");
+            if (buscarNome(nomeProd).equals(nomeProd)) {
+
+                JOptionPane.showMessageDialog(null, """
+                                                  ALTERAÇÃO DE PRODUTOS""" + "\n"
+                        + "Nome        : " + estoque[marcadorBuscarNome].nome + "\n"
+                        + "Preço       : " + estoque[marcadorBuscarNome].preco + "\n"
+                        + "Unidade     : " + estoque[marcadorBuscarNome].unidade + "\n"
+                        + "Quantidade: " + estoque[marcadorBuscarNome].quantidade + "\n");
+                
+                auxiliar = estoque[marcadorBuscarNome].preco;
+                auxiliarund = estoque[marcadorBuscarNome].unidade;
+                npreco = Double.parseDouble(JOptionPane.showInputDialog(null, "Digite o novo preço:"));
+                estoque[marcadorBuscarNome].preco = npreco;
+                nunidade = (JOptionPane.showInputDialog(null, "Digite o novo tipo de unidade"));
+                estoque[marcadorBuscarNome].unidade = nunidade;
+                JOptionPane.showMessageDialog(null,"Alterações realizadas: " + "\n" + "\n"  + "Novo preço: " + estoque[marcadorBuscarNome].preco + "\n"
+                + "Nova unidade: " + estoque[marcadorBuscarNome].unidade);
+                int finalizar = JOptionPane.showConfirmDialog(null, "DESEJA DESCARTAR AS ALTERAÇÕES?", "SAIR", JOptionPane.YES_NO_OPTION);
+                if (finalizar == JOptionPane.YES_OPTION) {
+                    estoque[marcadorBuscarNome].preco = auxiliar;
+                    estoque[marcadorBuscarNome].unidade = auxiliarund;
+                    break;
+                } else {
+                    continue;
+                }
+            } else {
+
+                JOptionPane.showMessageDialog(null, "Produto não cadastrado");
+            }
+
+        } while (!buscarNome(nomeProd).equals(nomeProd));
+    }
+    
+    public static void consultarProd() {
+        String nomeProd;
+        
+        do {
+            nomeProd = JOptionPane.showInputDialog(null, "Digite o nome do produto");
+            if (buscarNome(nomeProd).equals(nomeProd)) {
+
+                JOptionPane.showMessageDialog(null, """
+                                                  ALTERAÇÃO DE PRODUTOS""" + "\n"
+                        + "Nome        : " + estoque[marcadorBuscarNome].nome + "\n"
+                        + "Preço       : " + estoque[marcadorBuscarNome].preco + "\n"
+                        + "Unidade     : " + estoque[marcadorBuscarNome].unidade + "\n"
+                        + "Quantidade: " + estoque[marcadorBuscarNome].quantidade + "\n");
+            } else {
+                JOptionPane.showMessageDialog(null, "Produto não cadastrado");
+            }
+        } while (!buscarNome(nomeProd).equals(nomeProd));
+    }
+    
+    public static void excluirProd() {
+        String nomeProd;
+        
+        do {
+            nomeProd = JOptionPane.showInputDialog(null, "Digite o nome do produto");
+            if (buscarNome(nomeProd).equals(nomeProd)) {
+
+                JOptionPane.showMessageDialog(null, """
+                                                  ALTERAÇÃO DE PRODUTOS""" + "\n"
+                        + "Nome        : " + estoque[marcadorBuscarNome].nome + "\n"
+                        + "Preço       : " + estoque[marcadorBuscarNome].preco + "\n"
+                        + "Unidade     : " + estoque[marcadorBuscarNome].unidade + "\n"
+                        + "Quantidade: " + estoque[marcadorBuscarNome].quantidade + "\n");
+                int finalizar = JOptionPane.showConfirmDialog(null, "DESEJA REALMENTE EXCLUIR O PRODUTO?", "SAIR", JOptionPane.YES_NO_OPTION);
+                if (finalizar == JOptionPane.YES_OPTION) {
+                    estoque[marcadorBuscarNome].nome = "";
+                    estoque[marcadorBuscarNome].preco = 0.0;
+                    estoque[marcadorBuscarNome].unidade = "";
+                    estoque[marcadorBuscarNome].quantidade = 0.0;
+                    break;
+                } else {
+                    continue;
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Produto não cadastrado");
+            }
+        }while (!buscarNome(nomeProd).equals(nomeProd));    
     }
 }
