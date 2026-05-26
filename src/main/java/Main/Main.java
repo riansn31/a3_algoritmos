@@ -18,7 +18,7 @@ public class Main {
     static int total = 0;
 
     static int marcadorBuscarNome = 0; //Variável na qual guarda a posição do vetor através da procura por nome
-  
+
     public static void main(String[] args) {
         //String que vai conter o texto do menu
         String menu = """
@@ -137,22 +137,43 @@ public class Main {
             return;//não executa o resto dos comandos caso esteja cheio
         }
         try {
-            int thisId = Integer.parseInt(JOptionPane.showInputDialog("Digite o id: "));//atribui o id digitado pelo usuário na variável thisId
-
+            String idEntrada = JOptionPane.showInputDialog("Digite o id: ");
+            if (idEntrada == null) {
+                return; // Se cancelar, volta para o menu
+            }
+            int thisId = Integer.parseInt(idEntrada);
             if (buscarPorId(thisId) != -1) {//chama o método buscarPorId() e verifica se o id ja foi cadastratado
-
                 JOptionPane.showMessageDialog(null, "Id já cadastrado");//alerta caso o id já esteja em uso
-
             } else {
-                String nomeDigitado = JOptionPane.showInputDialog("Digite o nome do produto a ser cadastrado: ");//atribui o nome digitado pelo usuário na variável nomeDigitado
-                double precoDigitado = Double.parseDouble(JOptionPane.showInputDialog("Digite o preço do produto a ser casdastrado: "));//atribui o preço digitado pelo usuário na variável precoDigitado
-                double qtdDigitada = Double.parseDouble(JOptionPane.showInputDialog("Digite a quantidade do produto a ser cadastrado: "));//atribui a quantidade digitado pelo usuário na variável qtdDigitada
+                String nomeDigitado;
+                while (true) {
+                    nomeDigitado = JOptionPane.showInputDialog("Digite o nome do produto a ser cadastrado: ");
+                    if (nomeDigitado == null) {
+                        return; // Se o usuário clicar em "Cancelar", encerra o método incluirProd
+                    }
+                    // trim().isEmpty() verifica se o nome está vazio ou só tem espaços
+                    if (nomeDigitado.trim().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Nome do produto inválido. Digite um produto válido.");
+                    } else {
+                        break; // Nome é válido, sai do loop
+                    }
+                }
+                String precoEntrada = JOptionPane.showInputDialog("Digite o preço do produto: ");
+                if (precoEntrada == null) {
+                    return; // Se cancelar, volta para o menu
+                }
+                double precoDigitado = Double.parseDouble(precoEntrada);
+                String qtdEntrada = JOptionPane.showInputDialog("Digite a quantidade do produto a ser cadastrado: ");//atribui a quantidade digitado pelo usuário na variável qtdDigitada
+                if (qtdEntrada == null) {
+                    return; // Se cancelar, volta para o menu
+                }
+                double qtdDigitada = Double.parseDouble(qtdEntrada);
                 String unidadeDigitada = JOptionPane.showInputDialog("Digite a unidade do produto a ser cadastrado: ");//atribui a unidade digitada pelo usuário na variável unidadeDigitada
-
+                if (unidadeDigitada == null) {
+                    return; // Se cancelar, volta para o menu
+                }
                 Produto novoProduto = new Produto(thisId, nomeDigitado, precoDigitado, qtdDigitada, unidadeDigitada);//usa o construtor pra criar um objeto da classe produto iniciada com os valores digitados
-
                 estoque[total] = novoProduto;//atribui o objeto temporário criado no vetor estoque[]
-
                 //confirma que o produto foi cadastrado e mostra os dados do produto que o usuário cadastrou
                 JOptionPane.showMessageDialog(null, """
                                                 Produto cadastrado com sucesso!
@@ -160,7 +181,6 @@ public class Main {
                         + "nome : " + estoque[total].nome + "\n"
                         + "preço: " + estoque[total].preco + "R$\n"
                         + "quantidade: " + estoque[total].quantidade + " " + estoque[total].unidade);
-
                 //prepara o total pro proximo produto
                 total++;
             }
@@ -168,12 +188,10 @@ public class Main {
             JOptionPane.showMessageDialog(null, "Digite apenas números nos campos Id, preço e quantidade");
         }
     }
-
     /**
      * Menu de reajuste de preços
      */
     public static void menuReajuste() {
-
         String menu = """
     --- REAJUSTE DE PREÇOS ---
     
@@ -184,54 +202,99 @@ public class Main {
     OPÇÃO:
     """;
         String op;
-
         do {
             op = JOptionPane.showInputDialog(null, menu);
-
             if (op == null) {
                 break;
             }
-
             switch (op) {
-
                 case "1":
                     reajustarUmProduto();
                     break;
-
                 case "2":
                     reajustarTodosProdutos();
                     break;
-
                 case "0":
                     break;
-
                 default:
                     JOptionPane.showMessageDialog(null, "Opção inválida!");
                     break;
             }
-
         } while (!op.equals("0"));
     }
-
     /**
      * Buscar produto pelo nome
      */
     public static int buscarPorNome(String nomeProcurado) {
-
         for (int i = 0; i < total; i++) {
-
             if (estoque[i].nome.equalsIgnoreCase(nomeProcurado)) {
                 return i;
             }
         }
-
         return -1;
     }
-
     /**
      * Reajustar apenas um produto
      */
     public static void reajustarUmProduto() {
+        if (total == 0) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Nenhum produto cadastrado!"
+            );
+            return;
+        }
+        String nome = JOptionPane.showInputDialog(
+                "Digite o nome do produto:"
+        );
+        if (nome == null) {
+            return;
+        }
+        int posicao = buscarPorNome(nome);
+        if (posicao == -1) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Produto não encontrado!"
+            );
+        } else {
+            Produto p = estoque[posicao];
+            try {
+                double percentual = Double.parseDouble(
+                        JOptionPane.showInputDialog(
+                                "Produto: " + p.nome
+                                + "\nPreço atual: R$ " + p.preco
+                                + "\n\nDigite o percentual de reajuste:"
+                        )
+                );
+                double novoPreco = p.preco
+                        + (p.preco * percentual / 100);
+                int confirma = JOptionPane.showConfirmDialog(
+                        null,
+                        "Preço atual: R$ " + p.preco
+                        + "\nNovo preço: R$ " + novoPreco
+                        + "\n\nConfirmar reajuste?",
+                        "Confirmação",
+                        JOptionPane.YES_NO_OPTION
+                );
+                if (confirma == JOptionPane.YES_OPTION) {
+                    p.preco = novoPreco;
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Reajuste realizado com sucesso!"
+                    );
+                }
+            } catch (NumberFormatException erro) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Digite apenas números!"
+                );
+            }
+        }
+    }
+    /**
+     * Reajustar todos os produtos
+     */
+    public static void reajustarTodosProdutos() {
 
         if (total == 0) {
 
@@ -243,123 +306,44 @@ public class Main {
             return;
         }
 
-        String nome = JOptionPane.showInputDialog(
-                "Digite o nome do produto:"
-        );
+        try {
 
-        if (nome == null) {
-            return;
-        }
-
-        int posicao = buscarPorNome(nome);
-
-        if (posicao == -1) {
-
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Produto não encontrado!"
+            double percentual = Double.parseDouble(
+                    JOptionPane.showInputDialog(
+                            "Digite o percentual de reajuste para TODOS os produtos:"
+                    )
             );
 
-        } else {
-
-            Produto p = estoque[posicao];
-
-            try {
-
-                double percentual = Double.parseDouble(
-                        JOptionPane.showInputDialog(
-                                "Produto: " + p.nome
-                                + "\nPreço atual: R$ " + p.preco
-                                + "\n\nDigite o percentual de reajuste:"
-                        )
-                );
-
-                double novoPreco = p.preco
-                        + (p.preco * percentual / 100);
-
-                int confirma = JOptionPane.showConfirmDialog(
-                        null,
-                        "Preço atual: R$ " + p.preco
-                        + "\nNovo preço: R$ " + novoPreco
-                        + "\n\nConfirmar reajuste?",
-                        "Confirmação",
-                        JOptionPane.YES_NO_OPTION
-                );
-
-                if (confirma == JOptionPane.YES_OPTION) {
-
-                    p.preco = novoPreco;
-
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "Reajuste realizado com sucesso!"
-                    );
-                }
-
-            } catch (NumberFormatException erro) {
-
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Digite apenas números!"
-                );
-            }
-        }
-    }
-   
-    /**
- * Reajustar todos os produtos
- */
-public static void reajustarTodosProdutos() {
-
-    if (total == 0) {
-
-        JOptionPane.showMessageDialog(
-                null,
-                "Nenhum produto cadastrado!"
-        );
-
-        return;
-    }
-
-    try {
-
-        double percentual = Double.parseDouble(
-                JOptionPane.showInputDialog(
-                        "Digite o percentual de reajuste para TODOS os produtos:"
-                )
-        );
-
-        int confirma = JOptionPane.showConfirmDialog(
-                null,
+            int confirma = JOptionPane.showConfirmDialog(
+                    null,
                 "Deseja aplicar " + percentual +
                 "% de reajuste em todos os produtos?",
-                "Confirmação",
-                JOptionPane.YES_NO_OPTION
-        );
+                    "Confirmação",
+                    JOptionPane.YES_NO_OPTION
+            );
 
-        if (confirma == JOptionPane.YES_OPTION) {
+            if (confirma == JOptionPane.YES_OPTION) {
 
-            for (int i = 0; i < total; i++) {
+                for (int i = 0; i < total; i++) {
 
                 estoque[i].preco = estoque[i].preco +
                         (estoque[i].preco * percentual / 100);
+                }
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Reajuste aplicado com sucesso!"
+                );
             }
+
+        } catch (NumberFormatException erro) {
 
             JOptionPane.showMessageDialog(
                     null,
-                    "Reajuste aplicado com sucesso!"
+                    "Digite apenas números!"
             );
         }
-
-    } catch (NumberFormatException erro) {
-
-        JOptionPane.showMessageDialog(
-                null,
-                "Digite apenas números!"
-        );
     }
-}
-    
 
     /**
      * Menu de relatórios
@@ -556,7 +540,7 @@ public static void reajustarTodosProdutos() {
 
         do {
             op = JOptionPane.showInputDialog(null, menuMov);
-            
+
             // Tratamento caso o usuário clique em "Cancelar" ou feche a janela
             if (op == null) {
                 break;
@@ -628,7 +612,7 @@ public static void reajustarTodosProdutos() {
      * solicita a quantidade de saída garantindo que o saldo final não seja negativo ou zero.
      * Mediante confirmação, atualiza o saldo do produto.
      */
-     public static void saidaProd() {
+    public static void saidaProd() {
         if (total == 0) {
             JOptionPane.showMessageDialog(null, "Estoque vazio");
             return;
@@ -647,20 +631,21 @@ public static void reajustarTodosProdutos() {
                     } catch (NumberFormatException error) {
                         JOptionPane.showMessageDialog(null, "Digite apenas números nos campo");
                     }
-                    
+
                     // Inválida se a saída deixar o estoque zerado ou negativo
                     if ((quantidade - saida) <= 0) {
                         JOptionPane.showMessageDialog(null, "Saída inválida");
                     }
                 } while (saida == 0 || (quantidade - saida) <= 0);
-                
+
                 JOptionPane.showMessageDialog(null, "Quantidade final: " + (quantidade - saida) + estoque[marcadorBuscarNome].unidade);
                 int escolha = JOptionPane.showConfirmDialog(null, "Confirma saída \n" + estoque[marcadorBuscarNome].nome + "\n" + (quantidade -
                         saida) + estoque[marcadorBuscarNome].unidade, "Confirma", JOptionPane.YES_NO_OPTION);
-                
+
                 // Atualiza o estoque caso o usuário confirme
                 if (escolha == JOptionPane.YES_NO_OPTION) {
                     estoque[marcadorBuscarNome].quantidade = quantidade - saida;
+                    
                     break;
                 }
             } else {
@@ -668,8 +653,8 @@ public static void reajustarTodosProdutos() {
             }
         } while (!buscarNome(nomeProd).equals(nomeProd));
     }
-     
-     /**
+
+    /**
      * Busca um produto no vetor de estoque pelo nome exato.
      * Se o produto for encontrado, a variável global 'marcadorBuscarNome'
      * é atualizada com o índice correspondente no vetor.
@@ -689,4 +674,3 @@ public static void reajustarTodosProdutos() {
         return "";
     }
 }
-    
