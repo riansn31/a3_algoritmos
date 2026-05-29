@@ -9,8 +9,6 @@ import java.time.format.DateTimeFormatter;
 /**
  * Programa principal do controle de estoque..
  */
-  
-
 public class Main {
 
     static Produto[] estoque = new Produto[100];//criando um vetor para armazenar 100 objetos da classe produto
@@ -231,9 +229,9 @@ public class Main {
         } while (!op.equals("0"));
     }
 
-        /**
-         * Buscar produto pelo nome
-         */
+    /**
+     * Buscar produto pelo nome
+     */
     public static int buscarPorNome(String nomeProcurado) {
         for (int i = 0; i < total; i++) {
             if (estoque[i].nome.equalsIgnoreCase(nomeProcurado)) {
@@ -243,9 +241,9 @@ public class Main {
         return -1;
     }
 
-        /**
-         * Reajustar apenas um produto
-         */
+    /**
+     * Reajustar apenas um produto
+     */
     public static void reajustarUmProduto() {
         if (total == 0) {
             JOptionPane.showMessageDialog(
@@ -657,7 +655,8 @@ public class Main {
                 // Atualiza o estoque caso o usuário confirme
                 if (escolha == JOptionPane.YES_NO_OPTION) {
                     estoque[marcadorBuscarNome].quantidade = quantidade - saida;
-
+                    historicoMov.append(String.format("%-20s | SAÍDA   | -%-10.2f | SALDO: %.2f\n",
+                            estoque[marcadorBuscarNome].nome, saida, estoque[marcadorBuscarNome].quantidade));
                     break;
                 }
             } else {
@@ -686,7 +685,6 @@ public class Main {
 
         return "";
     }
-
 
     public static void alterarProd() {
         String nomeProd;
