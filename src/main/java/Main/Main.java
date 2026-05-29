@@ -121,6 +121,7 @@ public class Main {
                     break;
                 case "4":
                     JOptionPane.showMessageDialog(null, "Excluir Produto");
+                    excluirProd();
                 case "0":
                     break;
                 default:
@@ -736,13 +737,14 @@ public class Main {
             if (buscarNome(nomeProd).equals(nomeProd)) {
 
                 JOptionPane.showMessageDialog(null, """
-                                                  ALTERAÇÃO DE PRODUTOS""" + "\n"
+                                                  CONSULTA DE PRODUTOS""" + "\n"
                         + "Nome        : " + estoque[marcadorBuscarNome].nome + "\n"
                         + "Preço       : " + estoque[marcadorBuscarNome].preco + "\n"
                         + "Unidade     : " + estoque[marcadorBuscarNome].unidade + "\n"
                         + "Quantidade: " + estoque[marcadorBuscarNome].quantidade + "\n");
             } else {
                 JOptionPane.showMessageDialog(null, "Produto não cadastrado");
+                break;
             }
         } while (!buscarNome(nomeProd).equals(nomeProd));
     }
@@ -755,7 +757,7 @@ public class Main {
             if (buscarNome(nomeProd).equals(nomeProd)) {
 
                 JOptionPane.showMessageDialog(null, """
-                                                  ALTERAÇÃO DE PRODUTOS""" + "\n"
+                                                  EXCLUSÃO DE PRODUTOS""" + "\n"
                         + "Nome        : " + estoque[marcadorBuscarNome].nome + "\n"
                         + "Preço       : " + estoque[marcadorBuscarNome].preco + "\n"
                         + "Unidade     : " + estoque[marcadorBuscarNome].unidade + "\n"
