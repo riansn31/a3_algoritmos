@@ -688,7 +688,13 @@ public class Main {
 
         return "";
     }
-  
+      
+       /**
+       * Busca um produto pelo nome, mostrando os dados do produto e pedindo 
+       * as alterações para serem feitas no preço e tipo de unidades, em seguida
+       * mostrando as alterações e perguntando se o usuário pretende descartar as alterações ou não.
+       */
+
       public static void alterarProd() {
         String nomeProd;
         double npreco;
@@ -731,6 +737,12 @@ public class Main {
         } while (!buscarNome(nomeProd).equals(nomeProd));
     }
 
+     /**
+     * Busca um produto pelo nome exato. mostrando: nome, preço,
+     * unidade e quantidade respectivamente, se o produto não estiver
+     * cadastrado exibirá a mensagem "produto não cadastrado".
+     */
+
     public static void consultarProd() {
         String nomeProd;
 
@@ -751,6 +763,10 @@ public class Main {
         } while (!buscarNome(nomeProd).equals(nomeProd));
     }
 
+    /**
+     * Busca um produto pelo nome e mostra os dados dele, em seguida, pergunta
+     * se o usuário deseja realmente quer excluir o produto e em seguida o apaga.
+     */
     public static void excluirProd() {
         String nomeProd;
 
